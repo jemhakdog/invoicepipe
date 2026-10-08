@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}invoicepipe{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Primary">
+      <a href="{{ url_for('index') }}" class="nav__brand">invoicepipe</a>
+      <a href="{{ url_for('index') }}" class="nav__link">Invoices</a>
+      <span id="nav-status" class="nav__status" aria-live="polite"></span>
+    </nav>
+  </header>
+
+  <main class="page">
+    {% block content %}{% endblock %}
+  </main>
+
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+  <script>
+    // 10-line toast helper (BUILD §2)
+    function toast(msg, ok = true) {
+      const el = document.createElement('div');
+      el.className = ok ? 'toast toast--ok' : 'toast toast--err';
+      el.textContent = msg;
+      document.getElementById('toasts').appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }
+    async function post(url, body) {
+      try {
+        const r = await fetch(url, {
+          method: 'POST',
+          headers: body ? { 'Content-Type': 'application/json' } : {},
+          body: body ? JSON.stringify(body) : undefined,
+        });
+        const j = await r.json();
+        toast(j.msg || (j.ok ? 'OK' : 'Failed'), !!j.ok);
+        return j;
+      } catch (e) { toast(String(e), false); }
+    }
+    setInterval(async () => {
+      try {
+        const s = await (await fetch('/status')).json();
+        document.getElementById('nav-status').textContent =
+          `${s.processing} processing · ${s.total} invoices`;
+      } catch (e) {}
+    }, 2000);
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

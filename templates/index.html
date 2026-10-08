@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}invoicepipe — invoices{% endblock %}
+{% block content %}
+<header>
+  <h1 class="name">invoicepipe</h1>
+</header>
+
+<div class="step step--1">
+  <div id="drop" class="drop">
+    <label class="prompt drop__prompt" for="file">Drop invoice PDFs here</label>
+    <p class="mono drop__constraint">or click to browse — PDF only, up to 20 MB each</p>
+    <input id="file" type="file" accept="application/pdf,.pdf" class="file-input" multiple>
+    <div class="barwrap is-hidden" id="barwrap">
+      <div id="bar" class="bar"></div>
+    </div>
+    <p id="barlabel" class="mono barlabel is-hidden"></p>
+  </div>
+
+  {% if not invoices %}
+  <p class="queue">No invoices yet. Drop a PDF above to start the pipeline.</p>
+  {% else %}
+  <div class="ledger-wrap" tabindex="0" role="region" aria-label="Invoice queue">
+    <table class="ledger">
+      <thead>
+        <tr>
+          <th class="label">#</th><th class="label">File</th>
+          <th class="label">Vendor</th><th class="label">Invoice #</th>
+          <th class="label col-total">Total</th><th class="label">Status</th>
+          <th class="label"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in invoices %}
+        <tr>
+          <td class="col-num">{{ i.id }}</td>
+          <td class="col-file">{{ i.filename }}</td>
+          <td class="col-vendor">{{ i.fields.vendor or '—' }}</td>
+          <td class="col-no">{{ i.fields.invoice_no or '—' }}</td>
+          <td class="col-total">
+            {{ '%.2f'|format(i.fields.total) if i.fields.total is not none else '—' }}
+          </td>
+          <td class="col-status">
+            {% if i.status == 'approved' %}
+            <span class="state state--approved">approved</span>
+            {% elif i.status == 'ready' %}
+            <span class="state state--ready">ready</span>
+            {% elif i.status == 'processing' %}
+            <span class="state state--processing">processing</span>
+            {% else %}
+            <span class="state state--needs-review">needs review{% if i.warnings %} · {{ i.warnings|length }}{% endif %}</span>
+            {% endif %}
+          </td>
+          <td class="col-action">
+            <a class="action" href="{{ url_for('invoice', inv_id=i.id) }}">review →</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const drop = document.getElementById('drop');
+  const file = document.getElementById('file');
+  const barwrap = document.getElementById('barwrap');
+  const bar = document.getElementById('bar');
+  const barlabel = document.getElementById('barlabel');
+
+  drop.onclick = e => {
+    if (e.target === file || e.target.closest('label')) return;
+    file.click();
+  };
+  file.onchange = () => upload([...file.files]);
+  file.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); file.click(); }
+  });
+  drop.ondragover = e => { e.preventDefault(); drop.classList.add('drop--active'); };
+  drop.ondragleave = () => drop.classList.remove('drop--active');
+  drop.ondrop = e => {
+    e.preventDefault();
+    drop.classList.remove('drop--active');
+    upload([...e.dataTransfer.files]);
+  };
+
+  function upload(files) {
+    if (!files.length) return;
+    barwrap.classList.remove('is-hidden');
+    barlabel.classList.remove('is-hidden');
+    let done = 0, bad = 0;
+    const next = () => {
+      if (!files.length) {
+        bar.style.width = '100%';
+        bar.className = 'bar ' + (bad ? 'bar--reject' : 'bar--done');
+        barlabel.textContent = `${done} uploaded, ${bad} rejected`;
+        toast(bad ? `${bad} file(s) rejected (PDF only)` : `${done} uploaded — extracting…`, !bad);
+        setTimeout(() => location.reload(), 900);
+        return;
+      }
+      const f = files.shift();
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/upload');
+      xhr.upload.onprogress = ev => {
+        if (ev.lengthComputable) {
+          const pct = Math.round(ev.loaded / ev.total * 100);
+          bar.style.width = pct + '%';
+          barlabel.textContent = `${f.name} — ${pct}%`;
+        }
+      };
+      xhr.onload = () => {
+        let j = {}; try { j = JSON.parse(xhr.responseText); } catch (e) {}
+        if (!j.ok) { bad++; toast(j.msg || 'upload failed', false); }
+        else done++;
+        bar.style.width = '0%';
+        next();
+      };
+      xhr.onerror = () => { bad++; toast('upload failed', false); next(); };
+      const fd = new FormData();
+      fd.append('file', f);
+      xhr.send(fd);
+    };
+    next();
+  }
+</script>
+{% endblock %}

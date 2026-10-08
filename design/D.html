@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>invoicepipe — D</title>
+<style>
+html, body { background: #ECEDF0; color: #131512; }
+body {
+  margin: 0;
+  min-height: calc(100vh - 15vh);
+  padding: 7vh 6vw 8vh;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(52px, 10vw, 128px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+p { margin: 0; }
+.label {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: #5A6158;
+  margin-top: 2em;
+}
+.t1 { margin-top: 4.5vh; margin-left: 2vw; }
+.t2 { margin-top: 6.5vh; margin-left: 10vw; }
+.t3 { margin-top: 8vh; margin-left: 20vw; }
+.narr { font-size: clamp(18px, 1.9vw, 23px); line-height: 1.45; max-width: 52ch; margin-top: 0.5em; }
+.sub { font-size: clamp(14px, 1.5vw, 17px); line-height: 1.6; max-width: 56ch; }
+.prompt {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin-top: 1.6em;
+}
+.queue { font-size: clamp(15px, 1.6vw, 19px); line-height: 1.45; max-width: 42ch; margin-top: 0.5em; }
+.actions { font-size: clamp(15px, 1.6vw, 19px); font-weight: 700; letter-spacing: 0.03em; margin-top: 1.8em; }
+.set { color: #1E6B4A; }
+.fields {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(19px, 2.4vw, 30px);
+  letter-spacing: 0.05em;
+  color: #5A6158;
+  margin-top: 0.5em;
+}
+.fmt {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #5A6158;
+  margin-top: 0.9em;
+}
+.states {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(23px, 3vw, 39px);
+  line-height: 1.22;
+  margin-top: 0.5em;
+  max-width: 24ch;
+}
+.states .in { color: #5A6158; }
+.states .flag { color: #A32B2B; }
+.detect {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(16px, 1.9vw, 24px);
+  letter-spacing: 0.05em;
+  color: #A32B2B;
+  margin-top: 1.4em;
+}
+</style>
+</head>
+<body>
+
+<h1>invoicepipe</h1>
+
+<div class="t1">
+  <p class="label">PROJECT OVERVIEW</p>
+  <p class="narr">This system processes raw receipts, purchase orders, and PDF invoices automatically.</p>
+  <p class="label">MVP OBJECTIVE</p>
+  <p class="narr sub">Deliver a working document scanner that takes an uploaded single-page or multi-page PDF invoice, extracts 5 main fields (Vendor, Date, Invoice #, Line Items, Total Amount), and lets you fix mistakes before saving.</p>
+  <p class="prompt">Drop invoice PDFs here</p>
+  <p class="queue">No invoices yet. Drop a PDF above to start the pipeline.</p>
+  <p class="actions">Save corrections · <span class="set">Approve &amp; save</span></p>
+</div>
+
+<div class="t2">
+  <p class="label">EXTRACTED FIELDS</p>
+  <p class="fields">Vendor · Invoice # · Date · Due date · Subtotal · Tax · Total</p>
+  <p class="fmt">Line items — one per line, description | amount</p>
+  <p class="fmt">Original · <span class="set">math checks passed</span></p>
+  <p class="fmt">Extracting text and auditing the math…</p>
+  <p class="fmt">PDF only, up to 20 MB each</p>
+  <p class="label">NOTES</p>
+  <p class="fmt">YYYY-MM-DD · 30 sample invoices · Days 1-14</p>
+</div>
+
+<div class="t3">
+  <p class="label">STATUS</p>
+  <p class="states"><span class="in">processing</span> · <span class="set">ready</span> · <span class="flag">flagged</span> · <span class="set">approved</span> · <span class="flag">needs review</span></p>
+  <p class="detect">Duplicate Invoice Detection</p>
+</div>
+
+</body>
+</html>

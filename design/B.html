@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>invoicepipe — B</title>
+<style>
+html, body { background: #F7F5EF; color: #15161B; }
+body {
+  margin: 0;
+  min-height: calc(100vh - 15vh);
+  padding: 8vh 6vw 7vh;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.sheet {
+  display: grid;
+  grid-template-columns: minmax(0, 54ch) minmax(11rem, 21rem);
+  gap: 4.5rem 6vw;
+  align-items: start;
+}
+h1 {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: clamp(46px, 9vw, 116px);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+p { margin: 0 0 0.5em; }
+.label {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  margin: 2.4em 0 0.9em;
+}
+.lede { font-size: clamp(20px, 2.2vw, 27px); line-height: 1.4; text-align: justify; hyphens: auto; }
+.objective { font-size: 17px; line-height: 1.62; text-align: justify; hyphens: auto; }
+.prompt {
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin-top: 1.8em;
+}
+.queue { font-size: 17px; line-height: 1.5; max-width: 40ch; margin-top: 0.5em; }
+.actions { font-size: 16px; font-weight: 700; letter-spacing: 0.03em; margin-top: 2.2em; }
+.machine {
+  color: #4B5A64;
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+}
+.machine p { margin: 0 0 0.45em; }
+.machine .label { margin: 2.4em 0 0.9em; }
+.prose > .label:first-child,
+.machine > .label:first-child { margin-top: 0; }
+.machine .entry { font-size: 16px; letter-spacing: 0.1em; }
+.machine .run { font-size: 15px; margin-top: 0.7em; }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <h1>invoicepipe</h1>
+
+  <div class="prose">
+    <p class="label">PROJECT OVERVIEW</p>
+    <p class="lede">This system processes raw receipts, purchase orders, and PDF invoices automatically.</p>
+    <p class="label">MVP OBJECTIVE</p>
+    <p class="objective">Deliver a working document scanner that takes an uploaded single-page or multi-page PDF invoice, extracts 5 main fields (Vendor, Date, Invoice #, Line Items, Total Amount), and lets you fix mistakes before saving.</p>
+    <p class="prompt">Drop invoice PDFs here</p>
+    <p class="queue">No invoices yet. Drop a PDF above to start the pipeline.</p>
+    <p class="actions">Save corrections · Approve &amp; save</p>
+  </div>
+
+  <div class="machine">
+    <p class="label first">EXTRACTED FIELDS</p>
+    <p class="entry">Vendor ·</p>
+    <p class="entry">Invoice # ·</p>
+    <p class="entry">Date ·</p>
+    <p class="entry">Due date ·</p>
+    <p class="entry">Subtotal ·</p>
+    <p class="entry">Tax ·</p>
+    <p class="entry">Total</p>
+    <p>Line items — one per line, description | amount</p>
+    <p>Original · math checks passed</p>
+    <p class="label">STATUS</p>
+    <p class="run">processing · ready · flagged · approved · needs review</p>
+    <p>Extracting text and auditing the math…</p>
+    <p>PDF only, up to 20 MB each</p>
+    <p>Duplicate Invoice Detection</p>
+    <p class="label">NOTES</p>
+    <p>YYYY-MM-DD · 30 sample invoices · Days 1-14</p>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>invoicepipe — E</title>
+<style>
+html, body { background: #FFFFFF; color: #14161C; }
+body {
+  margin: 0;
+  min-height: calc(100vh - 18vh);
+  padding: 9vh 8vw;
+  font-family: "Times New Roman", Times, serif;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(48px, 10vw, 132px);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+p { margin: 0; }
+.label {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  margin-top: 2.4em;
+}
+.narr { font-size: clamp(17px, 1.8vw, 22px); line-height: 1.5; max-width: 56ch; margin-top: 0.4em; }
+.sub { font-size: clamp(15px, 1.5vw, 18px); line-height: 1.6; max-width: 60ch; }
+.record { margin-top: 13vh; }
+.record p { font-size: clamp(15px, 1.6vw, 19px); line-height: 1.75; margin-top: 0.7em; }
+.record .label { margin-top: 2.4em; }
+.record .run { letter-spacing: 0.05em; }
+.record .actions { font-weight: 700; letter-spacing: 0.04em; margin-top: 1.4em; }
+.detect {
+  margin-top: 6.5vh;
+  font-size: clamp(13px, 1.3vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+}
+.match {
+  margin-top: 6.5vh;
+  margin-left: 10ch;
+  color: #3F5C82;
+}
+.tail { margin-top: 13vh; }
+.tail p { font-size: clamp(15px, 1.5vw, 18px); line-height: 1.7; margin-top: 0.7em; max-width: 54ch; }
+.tail .label { margin-top: 2.4em; }
+.tail .constraint { font-size: clamp(14px, 1.4vw, 16px); letter-spacing: 0.06em; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>invoicepipe</h1>
+  <p class="label">PROJECT OVERVIEW</p>
+  <p class="narr">This system processes raw receipts, purchase orders, and PDF invoices automatically.</p>
+  <p class="label">MVP OBJECTIVE</p>
+  <p class="narr sub">Deliver a working document scanner that takes an uploaded single-page or multi-page PDF invoice, extracts 5 main fields (Vendor, Date, Invoice #, Line Items, Total Amount), and lets you fix mistakes before saving.</p>
+</header>
+
+<section class="record">
+  <p class="label">EXTRACTED FIELDS</p>
+  <p class="fields">Vendor · Invoice # · Date · Due date · Subtotal · Tax · Total</p>
+  <p>Line items — one per line, description | amount</p>
+  <p>Original · math checks passed</p>
+  <p class="label">STATUS</p>
+  <p class="run">processing · ready · flagged · approved · needs review</p>
+  <p class="actions">Save corrections · Approve &amp; save</p>
+</section>
+
+<p class="detect">Duplicate Invoice Detection</p>
+
+<section class="record match">
+  <p class="label">EXTRACTED FIELDS</p>
+  <p class="fields">Vendor · Invoice # · Date · Due date · Subtotal · Tax · Total</p>
+  <p>Line items — one per line, description | amount</p>
+  <p>Original · math checks passed</p>
+  <p class="label">STATUS</p>
+  <p class="run">processing · ready · flagged · approved · needs review</p>
+  <p class="actions">Save corrections · Approve &amp; save</p>
+</section>
+
+<section class="tail">
+  <p>Drop invoice PDFs here</p>
+  <p class="constraint">PDF only, up to 20 MB each</p>
+  <p>No invoices yet. Drop a PDF above to start the pipeline.</p>
+  <p>Extracting text and auditing the math…</p>
+  <p class="label">NOTES</p>
+  <p>YYYY-MM-DD · 30 sample invoices · Days 1-14</p>
+</section>
+
+</body>
+</html>

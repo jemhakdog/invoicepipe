@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>invoicepipe — A</title>
+<style>
+html, body { background: #F0ECE2; color: #1A1713; }
+body {
+  margin: 0;
+  min-height: calc(100vh - 12vh);
+  padding: 7vh 6vw 5vh;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5vh;
+}
+h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(54px, 13vw, 164px);
+  letter-spacing: -0.055em;
+  line-height: 0.85;
+}
+p { margin: 0; }
+.label {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.36em;
+  margin-top: 2.4em;
+}
+.block { margin-left: auto; max-width: 46ch; }
+.purpose { font-size: clamp(19px, 2.1vw, 27px); line-height: 1.38; margin-top: 0.6em; }
+.objective { font-size: clamp(14px, 1.3vw, 17px); line-height: 1.62; margin-top: 0.6em; }
+.record { margin-left: auto; }
+.fields {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: clamp(12px, 1.1vw, 15px);
+  letter-spacing: 0.16em;
+  margin-top: 0.9em;
+}
+.items {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 13px;
+  margin-top: 0.6em;
+}
+.stack p {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-weight: 700;
+  line-height: 1.08;
+}
+.stack .s1 { font-size: clamp(16px, 1.7vw, 21px); margin-top: 2em; }
+.stack .s2 { font-size: clamp(26px, 3.4vw, 44px); }
+.stack .s3 { font-size: clamp(38px, 5.4vw, 72px); }
+.stack .s4 { font-size: clamp(42px, 6.6vw, 96px); letter-spacing: -0.03em; }
+.foot {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1.85;
+  letter-spacing: 0.05em;
+}
+.foot p { margin-top: 0.35em; }
+.foot .label { margin-top: 2.4em; }
+.foot .state {
+  font-size: clamp(14px, 1.5vw, 19px);
+  letter-spacing: 0.02em;
+  margin-top: 0.6em;
+}
+.actions {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(15px, 1.5vw, 19px);
+  letter-spacing: 0.04em;
+  margin-top: 1.6em;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>invoicepipe</h1>
+</header>
+
+<div class="block">
+  <p class="label">PROJECT OVERVIEW</p>
+  <p class="purpose">This system processes raw receipts, purchase orders, and PDF invoices automatically.</p>
+  <p class="label">MVP OBJECTIVE</p>
+  <p class="objective">Deliver a working document scanner that takes an uploaded single-page or multi-page PDF invoice, extracts 5 main fields (Vendor, Date, Invoice #, Line Items, Total Amount), and lets you fix mistakes before saving.</p>
+</div>
+
+<div class="record">
+  <p class="label">EXTRACTED FIELDS</p>
+  <p class="fields">Vendor · Invoice # · Date · Due date · Subtotal · Tax · Total</p>
+  <p class="items">Line items — one per line, description | amount</p>
+  <div class="stack">
+    <p class="s1">Subtotal</p>
+    <p class="s2">Tax</p>
+    <p class="s3">Total</p>
+    <p class="s4">Total Amount</p>
+  </div>
+</div>
+
+<footer class="foot">
+  <p class="label">STATUS</p>
+  <p class="state">processing · ready · flagged · approved · needs review</p>
+  <p>Original · math checks passed</p>
+  <p>Extracting text and auditing the math…</p>
+  <p>Drop invoice PDFs here</p>
+  <p>PDF only, up to 20 MB each</p>
+  <p>No invoices yet. Drop a PDF above to start the pipeline.</p>
+  <p>Duplicate Invoice Detection</p>
+  <p class="actions">Save corrections · Approve &amp; save</p>
+  <p class="label">NOTES</p>
+  <p>YYYY-MM-DD · 30 sample invoices · Days 1-14</p>
+</footer>
+
+</body>
+</html>

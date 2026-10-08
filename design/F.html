@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>invoicepipe — F</title>
+<style>
+  html {
+    background-color: #E4E8E0;
+  }
+  body {
+    background-color: #E4E8E0;
+    color: #14170F;
+    font-family: "Courier New", ui-monospace, Menlo, Consolas, monospace;
+    font-size: clamp(15px, 1.3vw, 19px);
+    line-height: 1.95;
+    padding: 8vh 7vw 10vh;
+  }
+  p {
+    margin: 0;
+  }
+  .name {
+    font-size: clamp(40px, 8.5vw, 108px);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: 0.005em;
+    margin-bottom: 1.1em;
+  }
+  .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    line-height: 1.6;
+    margin-top: 3.1em;
+    margin-bottom: 0.3em;
+  }
+  .label-first {
+    margin-top: 0;
+  }
+  .op {
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <p class="name">invoicepipe</p>
+
+  <p class="label label-first">PROJECT OVERVIEW</p>
+  <p>This system processes raw receipts,</p>
+  <p>purchase orders,</p>
+  <p>and PDF invoices automatically.</p>
+
+  <p class="label">MVP OBJECTIVE</p>
+  <p>Deliver a working document scanner that takes an uploaded</p>
+  <p>single-page or multi-page PDF invoice, extracts 5 main fields</p>
+  <p>(Vendor, Date, Invoice #, Line Items, Total Amount),</p>
+  <p>and lets you fix mistakes before saving.</p>
+
+  <p class="label">EXTRACTED FIELDS</p>
+  <p>Vendor ·</p>
+  <p>Invoice # ·</p>
+  <p>Date ·</p>
+  <p>Due date ·</p>
+  <p>Subtotal ·</p>
+  <p>Tax ·</p>
+  <p>Total</p>
+  <p>Line items — one per line,</p>
+  <p>description | amount</p>
+  <p>Original · math checks passed</p>
+  <p>Extracting text and auditing the math…</p>
+  <p class="op">Drop invoice PDFs here</p>
+  <p>PDF only, up to 20 MB each</p>
+  <p>No invoices yet. Drop a PDF above to start the pipeline.</p>
+  <p class="op">Save corrections · Approve &amp; save</p>
+  <p>Duplicate Invoice Detection</p>
+
+  <p class="label">STATUS</p>
+  <p>processing ·</p>
+  <p>ready ·</p>
+  <p>flagged ·</p>
+  <p>approved ·</p>
+  <p>needs review</p>
+
+  <p class="label">NOTES</p>
+  <p>YYYY-MM-DD ·</p>
+  <p>30 sample invoices ·</p>
+  <p>Days 1-14</p>
+
+</main>
+</body>
+</html>

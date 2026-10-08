@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}invoicepipe — #{{ inv.id }}{% endblock %}
+{% block content %}
+<header>
+  <nav class="crumb" aria-label="Breadcrumb">
+    <a href="{{ url_for('index') }}" class="action">← all invoices</a>
+  </nav>
+  <h1 class="name">#{{ inv.id }} · {{ inv.filename }}</h1>
+</header>
+
+<section class="step step--1" aria-labelledby="lbl-original">
+  <h2 class="label" id="lbl-original">Original</h2>
+  {% if pages %}
+    <div class="pages">
+      {% for n in range(1, pages + 1) %}
+      <img class="page-img" src="{{ url_for('page_png', inv_id=inv.id, n=n) }}" alt="page {{ n }}">
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="mono">No preview — this file isn't a readable PDF.</p>
+  {% endif %}
+</section>
+
+<section class="step step--2" aria-labelledby="lbl-extracted"{% if inv.status == 'processing' %} aria-busy="true"{% endif %}>
+  <h2 class="label" id="lbl-extracted">Extracted fields</h2>
+
+  {% if inv.status == 'processing' %}
+  <div class="skeleton" aria-hidden="true">
+    <span class="skeleton__line skeleton__line--a"></span>
+    <span class="skeleton__line skeleton__line--b"></span>
+    <span class="skeleton__line skeleton__line--c"></span>
+    <span class="skeleton__block"></span>
+  </div>
+  <p class="mono audit">Extracting text and auditing the math…</p>
+  {% else %}
+    <form id="f" class="form">
+      <div class="form__grid">
+        <label class="field field--wide">Vendor
+          <input name="vendor" value="{{ inv.fields.vendor or '' }}"
+                 class="input input--text">
+        </label>
+        <label class="field">Invoice #
+          <input name="invoice_no" value="{{ inv.fields.invoice_no or '' }}"
+                 class="input">
+        </label>
+        <label class="field">Date
+          <input name="date" placeholder="YYYY-MM-DD" value="{{ inv.fields.date or '' }}"
+                 class="input">
+        </label>
+        <label class="field">Due date
+          <input name="due" placeholder="YYYY-MM-DD" value="{{ inv.fields.due or '' }}"
+                 class="input">
+        </label>
+        <label class="field">Subtotal
+          <input name="subtotal" value="{{ inv.fields.subtotal if inv.fields.subtotal is not none else '' }}"
+                 class="input">
+        </label>
+        <label class="field">Tax
+          <input name="tax" value="{{ inv.fields.tax if inv.fields.tax is not none else '' }}"
+                 class="input">
+        </label>
+        <label class="field">Total
+          <input name="total" value="{{ inv.fields.total if inv.fields.total is not none else '' }}"
+                 class="input">
+        </label>
+        <label class="field field--wide">Line items — one per line, <code>description | amount</code>
+          <textarea name="items" rows="5"
+                    class="input textarea">{% for it in inv.fields['items'] %}{{ it.desc }} | {{ '%.2f'|format(it.amount) }}
+{% endfor %}</textarea>
+        </label>
+      </div>
+      <div class="actions">
+        <button type="button" onclick="save(false)" class="btn">
+          Save corrections
+        </button>
+        <button type="button" onclick="save(true)" class="btn btn--approve">
+          Approve &amp; save
+        </button>
+      </div>
+    </form>
+  {% endif %}
+</section>
+
+<section class="step step--3" aria-labelledby="lbl-status">
+  <h2 class="label" id="lbl-status">STATUS</h2>
+  <p class="states">
+    {% if inv.status == 'approved' %}
+    <span class="state state--approved">approved</span>
+    {% elif inv.status == 'ready' %}
+    <span class="state state--ready">ready</span>
+    {% elif inv.status == 'processing' %}
+    <span class="state state--processing">processing</span>
+    {% else %}
+    <span class="state state--needs-review">needs review</span>
+    {% endif %}
+  </p>
+  {% if inv.status == 'processing' %}
+  {% elif inv.warnings %}
+  <ul class="warnings">
+    {% for w in inv.warnings %}<li class="warning{% if w.startswith('duplicate') %} warning--detect{% endif %}">{{ w }}</li>{% endfor %}
+  </ul>
+  {% else %}
+  <div class="verdict">math checks passed</div>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  {% if inv.status == 'processing' %}
+  setInterval(async () => {
+    try {
+      const s = await (await fetch('/invoice/{{ inv.id }}/status')).json();
+      if (s.status !== 'processing') location.reload();
+    } catch (e) {}
+  }, 1500);
+  {% else %}
+  async function payload() {
+    const f = document.getElementById('f');
+    return {
+      vendor: f.vendor.value, invoice_no: f.invoice_no.value,
+      date: f.date.value, due: f.due.value,
+      subtotal: f.subtotal.value, tax: f.tax.value, total: f.total.value,
+      items: f.items.value.split('\n').map(s => s.trim()).filter(Boolean),
+    };
+  }
+  async function save(approve) {
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(b => { b.disabled = true; b.setAttribute('aria-busy', 'true'); });
+    try {
+      const j = await post('/invoice/{{ inv.id }}/save', await payload());
+      if (!j || !j.ok) return;
+      if (!approve) return;
+      const a = await post('/invoice/{{ inv.id }}/approve');
+      if (a && a.ok) setTimeout(() => location.href = '/', 500);
+    } finally {
+      buttons.forEach(b => { b.disabled = false; b.removeAttribute('aria-busy'); });
+    }
+  }
+  {% endif %}
+</script>
+{% endblock %}

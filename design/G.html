@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>invoicepipe — G</title>
+<style>
+  html {
+    background-color: #16120F;
+  }
+  body {
+    background-color: #16120F;
+    color: #F4EFE4;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.6;
+    padding: 9vh 7vw 10vh;
+  }
+  h1, p {
+    margin: 0;
+  }
+  .name {
+    font-size: clamp(44px, 9vw, 118px);
+    font-weight: 700;
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5em;
+  }
+  .give {
+    max-width: 44ch;
+    text-align: left;
+  }
+  .give .label {
+    text-align: left;
+  }
+  .purpose {
+    font-size: clamp(18px, 1.9vw, 24px);
+    line-height: 1.45;
+    margin-bottom: 1.5em;
+  }
+  .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    line-height: 1.6;
+    margin-top: 2.6em;
+    margin-bottom: 0.6em;
+  }
+  .label-first {
+    margin-top: 0;
+  }
+  .get {
+    margin-left: auto;
+    max-width: 46ch;
+    text-align: right;
+    font-style: italic;
+    color: #C08A52;
+  }
+  .get .label {
+    text-align: right;
+    letter-spacing: 0.42em;
+  }
+  .block {
+    margin-top: 7vh;
+  }
+  .drop {
+    font-size: clamp(28px, 3.6vw, 48px);
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.5em;
+  }
+  .queue {
+    font-size: clamp(17px, 1.7vw, 21px);
+    line-height: 1.5;
+    margin-top: 1em;
+    max-width: 34ch;
+  }
+  .action {
+    font-size: clamp(17px, 1.7vw, 21px);
+    font-weight: 700;
+    margin-top: 1.6em;
+  }
+  .fields {
+    font-size: clamp(16px, 1.6vw, 19px);
+    line-height: 1.9;
+  }
+  .audit {
+    margin-top: 1.2em;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .run {
+    font-size: clamp(17px, 1.8vw, 22px);
+    line-height: 1.8;
+  }
+  .notes {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <section class="give">
+    <h1 class="name">invoicepipe</h1>
+
+    <p class="label label-first">PROJECT OVERVIEW</p>
+    <p class="purpose">This system processes raw receipts, purchase orders, and PDF invoices automatically.</p>
+
+    <p class="label">MVP OBJECTIVE</p>
+    <p class="purpose">Deliver a working document scanner that takes an uploaded single-page or multi-page PDF invoice, extracts 5 main fields (Vendor, Date, Invoice #, Line Items, Total Amount), and lets you fix mistakes before saving.</p>
+  </section>
+
+  <section class="get block">
+    <p class="label label-first">EXTRACTED FIELDS</p>
+    <p class="fields">Vendor · Invoice # · Date · Due date · Subtotal · Tax · Total</p>
+    <p class="audit">Line items — one per line, description | amount</p>
+    <p class="audit">Original · math checks passed</p>
+    <p class="audit">Extracting text and auditing the math…</p>
+  </section>
+
+  <section class="give block">
+    <p class="drop">Drop invoice PDFs here</p>
+    <p>PDF only, up to 20 MB each</p>
+    <p class="queue">No invoices yet. Drop a PDF above to start the pipeline.</p>
+    <p class="action">Save corrections · Approve &amp; save</p>
+  </section>
+
+  <section class="get block">
+    <p>Duplicate Invoice Detection</p>
+    <p class="label">STATUS</p>
+    <p class="run">processing · ready · flagged · approved · needs review</p>
+    <p class="label">NOTES</p>
+    <p class="notes">YYYY-MM-DD · 30 sample invoices · Days 1-14</p>
+  </section>
+
+</main>
+</body>
+</html>

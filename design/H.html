@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>invoicepipe — H</title>
+<style>
+  html {
+    background-color: #D9E1E7;
+  }
+  body {
+    background-color: #D9E1E7;
+    color: #12161C;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+    font-size: 17px;
+    line-height: 1.5;
+    text-align: center;
+    padding: 8vh 6vw 9vh;
+  }
+  h1, p {
+    margin: 0;
+  }
+  .name {
+    font-size: clamp(26px, 3.6vw, 50px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 0.8em;
+  }
+  .label {
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.36em;
+    line-height: 1.6;
+    color: #4F5C68;
+    margin-top: 2.8em;
+    margin-bottom: 0.9em;
+  }
+  .label-first {
+    margin-top: 0;
+  }
+  .lede {
+    font-size: clamp(17px, 1.8vw, 22px);
+    line-height: 1.5;
+    max-width: 46ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .objective {
+    font-size: clamp(22px, 3.2vw, 44px);
+    line-height: 1.26;
+    max-width: 46ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .promise {
+    color: #A8381B;
+    font-weight: 700;
+  }
+  .five {
+    color: #A8381B;
+    margin-top: 0.7em;
+  }
+  .five p {
+    font-size: clamp(20px, 2.6vw, 34px);
+    font-weight: 700;
+    font-variant: small-caps;
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+  }
+  .record {
+    margin-top: 9vh;
+    color: #4F5C68;
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  .fields {
+    font-size: clamp(15px, 1.6vw, 19px);
+    letter-spacing: 0.1em;
+    line-height: 1.9;
+  }
+  .audit {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+    font-size: clamp(16px, 1.6vw, 20px);
+    line-height: 1.7;
+    max-width: 44ch;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.1em;
+  }
+  .operate {
+    margin-top: 8vh;
+    color: #12161C;
+  }
+  .drop {
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .constraint {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-top: 0.6em;
+  }
+  .queue {
+    font-size: clamp(17px, 1.8vw, 22px);
+    line-height: 1.5;
+    max-width: 40ch;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.4em;
+  }
+  .action {
+    font-size: clamp(17px, 1.7vw, 21px);
+    font-weight: 700;
+    margin-top: 1.6em;
+  }
+  .state {
+    margin-top: 8vh;
+    color: #4F5C68;
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  .run {
+    font-size: clamp(17px, 1.8vw, 22px);
+    letter-spacing: 0.03em;
+    line-height: 1.8;
+  }
+  .notes {
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    line-height: 1.8;
+  }
+  .detect {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+    font-size: clamp(17px, 1.8vw, 22px);
+    margin-top: 1.4em;
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <h1 class="name">invoicepipe</h1>
+
+  <p class="label label-first">PROJECT OVERVIEW</p>
+  <p class="lede">This system processes raw receipts, purchase orders, and PDF invoices automatically.</p>
+
+  <p class="label">MVP OBJECTIVE</p>
+  <p class="objective">Deliver a working document scanner that takes an uploaded single-page or multi-page PDF invoice, <strong class="promise">extracts 5 main fields (Vendor, Date, Invoice #, Line Items, Total Amount)</strong>, and lets you fix mistakes before saving.</p>
+
+  <section class="five">
+    <p>Vendor</p>
+    <p>Date</p>
+    <p>Invoice #</p>
+    <p>Line Items</p>
+    <p>Total Amount</p>
+  </section>
+
+  <section class="record">
+    <p class="label">EXTRACTED FIELDS</p>
+    <p class="fields">Vendor · Invoice # · Date · Due date · Subtotal · Tax · Total</p>
+    <p class="audit">Line items — one per line, description | amount</p>
+    <p class="audit">Original · math checks passed</p>
+    <p class="audit">Extracting text and auditing the math…</p>
+  </section>
+
+  <section class="operate">
+    <p class="drop">Drop invoice PDFs here</p>
+    <p class="constraint">PDF only, up to 20 MB each</p>
+    <p class="queue">No invoices yet. Drop a PDF above to start the pipeline.</p>
+    <p class="action">Save corrections · Approve &amp; save</p>
+    <p class="detect">Duplicate Invoice Detection</p>
+  </section>
+
+  <section class="state">
+    <p class="label">STATUS</p>
+    <p class="run">processing · ready · flagged · approved · needs review</p>
+    <p class="label">NOTES</p>
+    <p class="notes">YYYY-MM-DD · 30 sample invoices · Days 1-14</p>
+  </section>
+
+</main>
+</body>
+</html>
